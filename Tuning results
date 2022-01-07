@@ -1,0 +1,237 @@
+I/MNIST DATASET 60 rounds
+1/Fixed users
+
++Rep only 
+-Global metric:norm2, Local metric: norm 2. Alpha = beta =0.04, local lr = global lr =0.03. Performance: Global: 0.85, gen:0.75, spec:97 
+-Global metric = KL , local metric = norm2. Alpha = beta =0.05, local lr = global lr =0.03. Perf:
+Global 0.844, gen: 0.82, spec 0.95
+-Global metric = norm 2, local metric = KL. alpha = 0.2, beta=0.04, local lr = 0.06, global lr =0.02. Perf:
+global:0.82, gen = 0.786,spec =0.95
+-Global metric = local metric = KL. alpha =0.3,beta =0.03, local lr = global lr =0.03.
+Perf: global =0.83, gen =0.79, spec =0.953
+-global metric = local metric = jsd. alpha =2, beta =0.1, local lr =0.03, global lr =0.05. Perf: global = 83.2, gen =78.3, spec = 0.96.4
+-global metric = KL, local metric = jsd, alpha = 2, beta =0.1, local lr =0.03, global lr = 0.03. Perf:
+global =0.838, gen = 0.77 spec =0.952
+-global metric = jsd, local metric = kl, alpha =0.2, beta =0.04, local lr = global lr =0.04. perf: global 83.2, gen 79, spec 95.8
+-Global metric =norm 2, local metric = jsd,alpha =1, beta =0.03, local lr = global lr =0.04. perf: global 82, gen 77.1, spec 96.4
+-global metric = jsd, local metric = norm 2, alpha =0.09, beta =0.03, local lr = global lr =0.04. perf: global 83.8, gen 79.3, spec 96.4
+
+-Global metric = KL , local metric = norm2. Alpha = 0.06, beta =0.6, local lr = 0.04 global lr =0.05. Perf: Global 0.86, gen: 0.82, spec 0.976  (new)
+-Global metric = local metric = KL. alpha =0.3,beta =0.15, local lr =0.03 global lr =0.04.
+Perf: global =0.83, gen =0.79, spec =0.976 new
+-Global metric = local metric = norm2. alpha =0.2,beta =0.05, local lr =0.03 global lr =0.05.
+Perf: global =0.85, gen =0.78, spec =0.976 new
+-global metric = local metric = jsd. alpha =2, beta =0.5, local lr =0.03, global lr =0.05. Perf: global = 83.8, gen =77.3, spec = 0.97.6 (new)
++Rep+Full
+Global metric = local metric = KL. alpha = 0.3, beta=0.03. global lr = local lr =0.03. perf:global = 0.87,gen = 0.76, spec =0.97
+Global metric = local metric = norm 2, alpha =0.07, beta =0.04, global lr =0.02, local lr=0.03. perf: global:0.874, gen = 0.757, spec = 0.964
+Global metric = KL, local metric = norm 2, alpha = 0.07, beta =0.02, local lr = 0.03, global lr =0.06. perf: global: 0.86, gen:0.82, spec:0.958  increase global => gen decrease
+global metric = norm 2, local metric = kl, alpha = 0.5, beta= 0.02, local lr =0.04, global lr =0.06. perf: global = 0.86, gen = 0.786, spec = 0.97
+Global metric = jsd, local metric = kl, alpha =0.3, beta =0.04, local lr = global lr =0.03. perf: global 84.4, gen 79.4, spec 95.2
+Global metric = local metric = jsd, alpha =2, beta =0.04, global lr = local lr =0.03. perf: global 83.8, gen 77.6, spec 95.8
+global metric = kl , local metric = jsd, alpha =1, beta =0.6, global lr =0.05, local lr =0.03. perf: global 83.8, gen 75.8, spec 97
+
+-Global metric = KL , local metric = norm2. Alpha = 0.07, beta =0.5, local lr = 0.03 global lr =0.05. Perf: Global 0.886, gen: 0.76, spec 0.98  (new)
+
++Full model
+Global metric = local metric = norm, alpha = 0.07 , beta =0.04, local lr = 0.03, global =0.02. perf: global 85, gen 76, spec 97
+Global metric = local metric = KL, alpha =0.7, beta =0.04, local lr = 0.04, global lr =0.03. perf: global 82.6, gen 77.4, spec 97
+global metric =kl, local metric = norm 2, alpha = 0.1, beta =0.05, local lr =0.04, global lr =0.03. perf: global 83.2, gen 79.1, spec 95.2
+global metric = norm 2 , local metric = kl, alpha=0.6, beta =0.04, local lr =0.04, global lr =0.03. perf: global 83.8, gen 76.46, spec 95.8
+
+
+
+2/Subset of users
++Rep + full
+global metric = local metric =kl , alpha = 1.5, beta=0.03, global lr =0.03, local lr =0.03. perf: global 84.5, gen 62, spec 94   
+global metric = kl , local metric = norm 2, alpha = 0.2, beta=0.05,local lr = 0.04,global lr =0.04.perf: spec:96.7,gen 64.8, global 85 
+global metric = norm 2, local metric = kl, alpha =2, beta =0.02, local lr =0.04, global lr =0.03. perf: global 85.1, gen 60.4, spec 95.4
+global metric = local metric = norm 2, alpha = 0.4, beta =0.01, local lr = global lr = 0.03. perf: global 84, gen 58.7, spec 97
+global metric = kl , local metric = jsd, alpha =5, beta =0.1, local lr = global lr =0.03. perf: global 85.3, gen 62.8, spec 96
+global metric = local metric = jsd, alpha =3, beta =0.1, local lr = global lr =0.05. perf global 84.68, spec 94, gen 62.6
+global metric = kl , local metric = norm 2, alpha = 0.25, beta=0.06,local lr = 0.02,global lr =0.03.perf: spec:98.5,gen 72.5, global 85 (new)
+
++Full model
+global metric = local metric = kl , alpha =1, beta =0.03, global lr = 0.015, local lr =0.02. perf: global 84, gen 61.1, spec 94.8
+global metric = kl, local metric = norm 2, alpha = 0.8,beta = 0.3, global lr =0.015, local lr = 0.02. perf: global 85, spec = 94, gen = 61.1
+global metric = norm 2, local metric = kl , alpha =2, beta =0.03 , local lr = 0.03, global lr =0.02. perf: global 85, spec = 95.4, gen = 60.9
+global metric = local metric = norm 2, alpha =0.2, beta = 0.03, local lr = 0.04, global lr = 0.02, perf: global 84.94, gen = 60.8 spec 96
+global metric = local metric = jsd, alpha =3.5, beta =0.1, local lr = global lr =0.05. perf: global 85, gen 60.3, spec 94.8
+global metric = kl, local metric = norm 2, alpha = 0.25,beta = 0.1, global lr =0.04, local lr = 0.05. perf: global 86, spec = 99, gen = 70 (new)
+
++Rep only
+global metric = local metric = kl, alpha = 1.5, beta =0.03, global lr =0.03, local lr =0.02. perf: global 81.9, gen 67.6, spec 94
+global metric = kl ,local metric = norm 2,alpha =0.15, beta =0.05, global lr = local lr =0.04. perf: global 83, gen 68.9, spec 98
+global metric = norm 2, local metric = kl,alpha =1.2, beta =0.03, local lr = global lr =0.04. perf: global 84.5, gen 63.3, spec 95.4
+global metric = local metric = norm 2, alpha = 0.25, beta = 0.01, local lr = global lr =0.04. perf global 85, gen 58, spec 96.7
+global metric =kl , local metric = jsd, alpha =5, beta = 0.15, local lr =0.03, global lr = 0.05. perf global 83.5, gen 65.1, spec 95.48
+global metric = local metric = jsd, alpha = 2.5, beta =0.1, local lr =0.04, global lr =0.05. perf global 82.8, gen 63,9, spec 96
+global metric = kl ,local metric = norm 2,alpha =0.25, beta =0.15, global lr = 0.07 local lr =0.02. perf: global 85, gen 76, spec 98 (new)
+
+global metric = local metric = kl, alpha = 2, beta =0.2, global lr =0.08, local lr =0.02. perf: global 86, gen 73.5, spec 98 new
+global metric = local metric = norm 2, alpha = 0.25, beta = 0.01, local lr = 0.03g lobal lr =0.04. perf global 85, gen 65, spec 98 new
+global metric = local metric = jsd, alpha = 2.5, beta =0.2, local lr =0.03, global lr =0.07. perf global 85 gen 70, spec 98  new
+
+3/ Fixed users (heterogeneous model)
+
++Rep+full
+global metric = KL, local metric = norm 2, alpha = 0.07, beta =0.02, global lr = local lr =0.03. perf: global 85, gen 77 spec 96
+global metric =  metric = kl  , alpha =0.3, beta =0.03, global lr = local lr =0.03. perf: global 85, gen 72.8, spec 95.8
++Rep only 
+global metric = kl , local metric = norm 2, alpha =0.05, beta =0.05, global lr = local lr =0.03. perf: global 82,6 gen 77.4, spec 95.8
+global metric = kl , local metric = norm 2, alpha =0.05, beta =0.05, global lr = local lr =0.03. perf: global 85 gen 74, spec 97 new
++Full model
+global metric = kl , local metric = norm 2, alpha =0.1, beta =0.05, global lr = local lr =0.03. perf: global 85, gen 74.7, spec 94.6
+
+
+4/ Subset of users (heterogeneous model)
+
+
++Rep+full
+global metric = kl, local metric = norm2, alpha =0.15, beta =0.05, global lr = local lr =0.04. perf: global 86.35, gen 60.9, spec 97
++Rep only 
+global metric = kl, local metric = norm 2, alpha =0.15, beta =0.05, global lr = local lr =0.03. perf: global 84, local 94.8, gen 66.8
+global metric = kl, local metric = norm 2, alpha =0.15, beta =0.05, global lr = local lr =0.03. perf: global 84, local 94.8, gen 66.8 new
++Full model
+*Heterogeneous model:global metric = kl , local metric = norm 2, alpha = 0.4, beta=0.7,local lr = global lr =0.02.perf: spec:96,gen 63, global 84 
+global metric = kl, local metric = norm 2, alpha =0.15, beta =0.05, local lr =0.03, global lr =0.02, spec 96, gen 0.6, global 84
+
+
+II/FMNIST DATASET
+1/Fixed users (same model)
+
++Rep only
+-Global metric = local metric = norm 2. Alpha =0.09, beta =0.05, global lr=local lr=0.03. Perf: Global:0.846, Gen:0.765, Spec:0.95
+Global metric = KL, local metric = norm2. Alpha =0.08,beta =0.05, global lr = local lr =0.03. Perf: global:0.846, gen:0.8237m spec 0.934
+Global metric = KL, local metric = norm2. Alpha =0.03,beta =0.05, global lr = local lr =0.03. Perf: 100 rounds
+global metric = norm2, local metric = KL. alpha = 0.5, beta =0.08, global lr = local lr =0.03. Perf:global :0.8, gen = 0.798, spec : 0.93
+global metric = local metric =KL. alpha = beta =0.4, local lr =0.04, global lr =0.01. perf: global =0.84, gen =0.8, spec =0.93
+global metric = local metric =jsd . alpha=1, beta =0.4, local lr =0.03, global lr =0.03. perf: global : 0.85, gen:0.79, spec:0.925
+global metric = jsd, local metric = kl , alpha =0.6, beta =0.04, local lr =0.05, global lr =0.02. perf: global 84.6, gen 82.7, spec 91.1
+global metric = KL, local metric = jsd. alpha = 1.5, beta =0.4, local lr =0.04, global lr =0.04. perf: global =0.823, gen = 0.80, spec =0.92
+global metric = jsd, local metric = norm 2, alpha =0.07, beta =0.04 , global lr =0.03, local lr =0.02. perf: global 84, gen 83.48, spec 92.55
+global metric = norm, local metric = jsd, alpha =2, beta =0.05, global lr = 0.04, local lr =0.03. perf: global 82.3, gen 80, spec 93.4
+Global metric = KL, local metric = norm2. Alpha =0.02,beta =0.1, global lr =0.07 local lr =0.03. (new)
+Global metric = local metric = jsd. Alpha =0.15,beta =0.1, global lr =0.07 local lr =0.03. (new)
+Global metric = local metric = KL. Alpha =0.04,beta =0.1, global lr =0.07 local lr =0.03. (new)
+
++Rep+Full
+Global metric = local metric = KL. alpha = 0.7, beta=0.6. global lr = local lr =0.04. perf:global = 0.85,gen = 0.79, spec =0.93
+Global metric = local metric = norm 2, alnpha =0.1, beta =0.06, global lr =0.04, local lr=0.05. perf: global:0.846, gen = 0.765, spec = 0.96
+Global metric = KL, local metric = norm 2, alpha = 0.09, beta =0.06, local lr = 0.04, global lr =0.05. perf: global: 84, gen:82.6, spec:93
+0.846, gen = 0.765, spec = 0.96
+Global metric = KL, local metric = norm 2, alpha = 0.01, beta =0.03, local lr = 0.05, global lr =0.02. perf: global: 85, gen:74.7, spec:96 (100 rounds) new lr: local lr =0.06
+global metric = norm 2, local metric = kl, alpha = 0.6, beta= 0.06, local lr =0.04, global lr =0.05. perf: global = 0.85, gen = 0.787, spec = 0.9395
+global metric = norm2, local metric = jsd, alpha =3, beta =0.05, global lr = local lr =0.04. perf: global 83.2, gen 80.8 spec 92.2
+global metric = jsd, local metric = norm 2, alpha =0.09, beta =0.04, local lr = global lr =0.04. perf: global 85 gen 84, spec 92.5
+global metric = KL, local metric = jsd, alpha =2, beta =0.4, local lr = global lr =0.04. perf: global 84, gen 80.2, spec 92.5
+global metric = jsd, local metric = kl ,alph =0.6, beta = 0.06, local lr = global lr =0.04. perf: globa l83, gen 82.6, spec 92
+global metric = local metric = jsd, alpha =1, beta =0.5, local lr = global lr =0.04. perf: global 81.8, gen 78.5, spec 93.4
+
++Full model
+global metric = kl metric = norm2, alpha =0.09, beta = 0.05, global lr = local lr = 0.03. perf: global 82.3, gen 78.1, spec 93
+global metric = kl metric = kl, alpha =0.5, beta =0.08, global lr = local lr = 0.03. perf: global 82.3, gen =80, spec 92.5
+global metric = kl, local metric = norm 2, alpha =0.09, beta =0.05, global lr = local lr =0.03. perf: global 83.2, gen 80.5, spec 94.4
+global metric = kl, local metric = norm 2, alpha =0.01, beta =0.04, global lr = local lr =0.03. perf: 100 rounds
+global metric = norm 2, local metric = kl, alpha =0.6, beta =0.05, global lr =local lr =0.03. perf: global 83.2, gen 79.9, spec 92.5
+global metric = local metric = jsd, alpha = 1.5, beta =0.4, global lr = local lr =0.04. perf: global 84.2, gen 78.7, spec 91.1
+global metric = kl , local metric = jsd, alpha =2, beta =0.4, global lr = local lr =0.04. perf: global 82.7, gen 78.7, spec 91.1
+global metric = norm 2, local metric = jsd, alpha =3, beta =0.06, global lr = local lr =0.04. perf: global 81.8, gen 79.2, spec 92.5
+global metric= jsd, local metric= norm 2, alpha =0.09, beta =0.04, global lr = local lr =0.04. perf: global 81.3, gen 82.9, spec 91.6
+global metric = jsd, local metric = kl, alpha =0.6, beta =0.06, global lr =local lr =0.04. perf: global 82.3, gen 81.9, spec 90.6
+
+
+2/Subset of users (Same model)
+
++REP+FULL
+Global metric = kl, local metric = norm2, alpha =0.3, beta =0.06, global lr = 0.04, local lr = 0.03. perf:global =0.80, gen = 0.7, spec = 0.94
+Global metric = norm 2, local metric = kl, alpha =1.2,beta =0.03,local lr =0.04,global lr =0.03. perf: global 80.4,gen 62.3, spec 94.5
+global metric = local metric = KL, alpha = 1.5, beta =0.05, global lr =0.02, local lr =0.02, perf: global 78.8,gen 68.1, spec 95
+global metric = local metric = norm 2 , alpha = 0.4, beta =0.01, global lr =0.03, local lr =0.04. perf: global 80.65, gen 62.7, spec 94
+global metric  = KL, local metric = JSD, alpha =3, beta = 0.3, global lr = 0.03, local lr =0.04. perf: global 80.6, gen 66 spec 94.5
+global metric = local metric = jsd, alpha =2, beta =0.05, local lr = global lr =0.04. perf global 79, gen 67.5, spec 94.58
+Global metric = kl, local metric = norm2, alpha =0.2, beta =0.06, global lr = 0.03, local lr = 0.05. perf:global =0.80, gen = 0.65, spec = 0.96 (new)
+
+
++Full model
+global metric = local metric = norm 2, alpha =0.3, beta = 0.05, local lr = global lr = 0.03. perf: global 79.9, gen 66.4, spec 94.5
+global metric = local metric = kl , alpha =4, beta =0.6, local lr = 0.04, global lr = 0.03. perf: global 79, gen 62, spec 94
+global metric = kl ,local metric = norm 2, alpha =0.3, beta =0.06, local lr =0.04, global lr =0.03, perf: global 79, gen 68, spec 94.5
+global metric = norm 2, local metric = kl, alpha =1.2, beta =0.03, local lr =0.04, global lr =0.03. perf: global 80, gen 64.9, spec 95.5
+global metric = local metric =jsd, alpha =2, beta =0.04, global lr = local lr =0.04. perf global 78, gen 65.8, spec 91.6
+global metric = kl ,local metric = norm 2, alpha =0.2, beta =0.06, local lr =0.03, global lr =0.04, perf: global 79, gen 68, spec 94.5 (new)
++Rep only
+global metric = local metric =kl, alpha =0.5,beta =0.08, local lr =0.04, global lr =0.03. perf: global 77, gen 69, spec 93
+global metric = kl , local metric = norm 2, alpha =0.3, beta =0.06, local lr =0.03, global lr =0.04. perf: global 78, gen 69.2, spec 92.6
+global metric = norm 2, local metric = kl , alpha =1.2, beta = 0.06, local lr =0.03, global lr =0.04. perf:
+global 79.8, gen 66.6, spec 94
+global metric = local metric = norm 2, alpha = 0.3, beta =0.02, local lr = global lr =0.04. perf: gen 61.8, spec 96.5, global 79.8
+global metric = kl , local metric = jsd, alpha = 3, beta = 0.03,local lr = 0.04, global lr =0.03. perf global 78, gen 67.45, spec 93.5
+global metric = local metric= jsd,alpha =2, beta =0.04, local lr =0.04, global lr =0.03. perf global 77 gen 66, spec 93
+global metric = jsd, local metric = norm, alpha = 0.15, beta = 0.05, local lr = 0.05, global lr =0.03. pef global 78.9, gen 69.9, spec 93.2
+global metric = kl , local metric = norm 2, alpha =0.2, beta =0.06, local lr =0.03, global lr =0.04. perf: global 78, gen 69.2, spec 92.6 (new)
+global metric = local metric =kl, alpha =0.5,beta =0.06, local lr =0.03, global lr =0.03. perf: global 77, gen 69, spec 93 (new)
+global metric = local metric = norm 2, alpha = 0.25, beta =0.02, local lr = global lr =0.04. perf: gen 61.8, spec 96.5, global 79.8 (new)
+global_generalized_epochs = 2
+
+3/ Fixed users (heterogeneous model)
+
++Rep+full
+
++Rep only 
+
++Full model
+
+
+4/ Subset of users (heterogeneous model)
+
++Rep+full
+
++Rep only 
+
++Full model
+
+
+III/Cifar10
+FedAvg: spec:80, global 60, gen 26 (100 rounds)
+Fedavg subset: spec 66, global 60, gen 53
+1/fixed user (Same model)
++Rep+full:
+global metric = local metric =kl, alpha =0.3, beta =0.03, global lr = local lr =0.03. perf: global 59.2, gen 51, spec 72.2
+global metric = kl, local metric = norm , alpha = 0.1, beta =0.07,local lr =0.04, global lr =0.03. perf: glob 58.1, gen 50.2, spec 72.2
+global metric = local metric = jsd, alpha =1, beta = 0.5, global lr = local lr =0.03, global 57.6, gen 50.7, 70.38
+global metric= local metric = norm 2, alpha = 0.15, beta =0.05, global lr =0.05, local lr =0.04. perf: global 53, gen 46.7, spec 69.3
+global metric = local metric = jsd, alpha = 0.8, beta =0.5, global lr = local lr =0.04. perf: global 57, gen 50, spec 70
+
+global metric = kl, local metric = kl , alpha = 0.3, beta =0.03,local lr =0.03, global lr =0.03. perf: glob 57.5, gen 51.51, spec 71 (100 rounds)
+global metric = local metric = norm2, alpha = 0.1, beta =0.06, global lr = local lr = 0.03. perf: glob 55.4, local metric 72, gen 45.6 (100rounds)
+
+global metric = kl, local metric = norm , alpha = 0.09, beta =0.07,local lr =0.06, global lr =0.01. perf: glob 60, gen 50, spec 70 (100 rounds)
+global metric = kl , local metric = norm 2, alpha = 0.01, beta =0.09, local lr =0.03, global lr =0.01. perf:glob 60, gen 40, spec 77
++Rep:
+global metric =kl, local metric = norm2, alpha =0.1, beta =0.03, globallr =0.03, local lr =0.04. perf: global 55, gen 47, spec 70
+global metric = kl, local metric = norm 2, alpha 0.02, beta =0.25, global lr = local lr =0.03 new
++Full:
+global metric =kl ,local metric =norm. alpha =0.1, beta =0.05, global lr =local lr =0.04. perf glob 57.7, gen 51.4, spec 72
+global metric = kl , local metric = norm , alpha = 0.01, beta =0.05, glob lr =0.01, local lr =0.03. perf: 58.73, gen 37, spec 76
+2/subset user(same model)
++Rep+full:
+global metric = kl ,local metric = norm 2, alpha = 0.3, beta =0.06, global lr = 0.03, local lr =0.04.
+global metric = jsd, local metric = norm 2, alpha =0.15, beta =0.05, global lr = local lr =0.03. petf: spec 77, gen 32, glob 53
+global metric = kl ,local metric = norm 2, alpha = 0.5, beta =0.05, global lr = 0.03, local lr =0.025,perf: global 56, spec 77, gen 42
+global metric = local metric = jsd, alpha =3, beta =0.3, global lr = local lr =0.03. perf: glob 55.6, gen 39, spec 79 (100 rounds)
+glob metric = local metric= norm,alpha =0.4, beta=0.02, local lr = global lr =0.04. perf: glob 52,gen 32, spec 79
+glob metric = local metric = KL, alpha = 2, beta = 0.05, local lr = global lr =0.04. perf: glob 55, gen 38, spec 74
+glob metric = local metric= JSD, alpha = 1, beta =0.5, local lr = global lr =0.04. perf: glob 56, gen 51, spec 69
+global metric = kl ,local metric = norm 2, alpha = 0.5, beta =0.05, global lr = 0.01, local lr =0.03. glob 57, spec 76, gen 40
++Rep
+global metric = kl, local metric = norm 2, alpha 0.3, beta =0.07.
+global metric = kl, local metric = norm 2, alpha 0.3, beta =0.1, local lr =0.04, global lr =0.02
++Full
+global metric = kl, local metric = norm, alpha =0.3, beta =0.07, global lr = local lr =0.05. perf: glob 55, gen 37, spec 76
+global metric = kl , local metric = norm, alpha 0.5, beta =0.08, global lr = local lr =0.04. perf glob 54, gen 35, spec 73
+global metric = kl, local metric = norm, alpha =0.6, beta = 0.05, local lr =0.04, global lr =0.015, glob 57, spec 72, gen 37
+global metric = kl, local metric = norm, alpha =0.6, beta =0.1, global lr = local lr =0.03. perf: glob 55, gen 37, spec 76
+cdkt no transfer: glob 52, spec 77, gen 18
+
+IV/ CIFAR 100
