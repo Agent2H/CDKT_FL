@@ -37,7 +37,7 @@ python CDKT_main.py
 
 
 
-The Results are stored in `./results and` figures in `./figs`
+The Results are stored in `./results` and figures in `./figs`
 
 
 
