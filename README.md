@@ -19,7 +19,8 @@ To plot the figure, we use the result files from `./results_fig` by running CDKT
 
  **PATH:** Output: `./results_fig`, Figures: `./figs`, Dataset: `./data`
 
-**Modify parameters in Setting.py to run the code:**
+**Modify parameters setting in `Setting.py` to run the code**
+Please refer the file `Tuning results` to access different parameter settings of this  work.
 
 Example:
 
