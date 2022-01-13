@@ -21,10 +21,10 @@ PLOT_PATH_FIG="./figs/"
 
 #Dataset selection
 DATASETS= ["mnist","fmnist","Cifar10","Cifar100"]
-DATASET = DATASETS[1]
+DATASET = DATASETS[3]
 #Algorithm selection
 RUNNING_ALGS = ["fedavg","CDKT"]
-RUNNING_ALG = RUNNING_ALGS[1]
+RUNNING_ALG = RUNNING_ALGS[0]
 #Metric selection
 CDKT_metrics = ["KL","Norm2","JSD"]
 Global_CDKT_metric = CDKT_metrics[0]   # Global distance metric
@@ -78,7 +78,7 @@ rs_file_path = FIG_PATH + rs_file_path
 PLOT_PATH += DATASET+'_'
 print("Result Path ", rs_file_path)
 
-complex_file_path = "{}_{}_I{}_time.h5".format(DATASET, RUNNING_ALG, NUM_GLOBAL_ITERS)
+# complex_file_path = "{}_{}_I{}_time_.h5".format(DATASET, RUNNING_ALG, NUM_GLOBAL_ITERS)
 
 
 

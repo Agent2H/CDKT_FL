@@ -250,5 +250,5 @@ global metric = kl ,local metric = norm 2, alpha = 0.8, beta =0.07, global lr = 
 global metric = kl, local metric = norm 2, alpha 0.45, beta =0.09, local lr =0.03, global lr =0.03
 +Full
 global metric = kl, local metric = norm, alpha =0.8, beta =0.1, global lr = local lr =0.03. 
-
+3/Heterogeneous: use same parameters with same model
 
