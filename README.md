@@ -20,8 +20,10 @@ To plot the figure, we use the result files from `./results_fig` by running CDKT
  **PATH:** Output: `./results_fig`, Figures: `./figs`, Dataset: `./data`
 
 **Modify parameters setting in `Setting.py` to run the code**
+
 Please refer the file `Tuning results` to access different parameter settings of this  work.
 
+--
 Example:
 
 CDKT + Mnist + RepFull + Subset of Users + Homogeneous Model: **RUNNING_ALGS**[1], **DATASETS**[0], **Full_model** = False, **Rep_Full** = True , **Subset** = True, **Same_model** = True
