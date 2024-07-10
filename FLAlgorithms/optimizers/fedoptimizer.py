@@ -1,8 +1,12 @@
 import copy
 
 from torch.optim import Optimizer
-
-
+from torch.optim.optimizer import Optimizer
+from FLAlgorithms.optimizers.comm_helpers import communicate, flatten_tensors, unflatten_tensors
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.distributed as dist
 class MySGD(Optimizer):
     def __init__(self, params, lr, L_k = 0):
         defaults = dict(lr=lr, L_k = L_k)
@@ -16,6 +20,7 @@ class MySGD(Optimizer):
         for group in self.param_groups:
             # print(group)
             for p in group['params']:
+
                 p.data = p.data - group['lr'] * (p.grad.data + group['L_k'] * p.data)
         return loss
 
@@ -92,7 +97,16 @@ class DemProx_SGD(Optimizer):
                 #     # print(p.data)
                 #     p.data = p.data - group['lr'] * p.grad.data
         return group['params'], loss
+class SCAFFOLDOptimizer(Optimizer):
+    def __init__(self, params, lr):
+        defaults = dict(lr=lr)
+        super(SCAFFOLDOptimizer, self).__init__(params, defaults)
 
+    def step(self, server_cs, client_cs):
+        for group in self.param_groups:
+            for p, sc, cc in zip(group['params'], server_cs, client_cs):
+
+                p.data.add_(other=(p.grad.data + sc - cc), alpha=-group['lr'])
 
 class Prox_SGD(Optimizer):
     def __init__(self, params, lr, mu = 0):
@@ -211,3 +225,7 @@ class APFLOptimizer(Optimizer):
                 d_p = beta  * n_k * p.grad.data
                 p.data.add_(-group['lr'], d_p)
         return loss
+
+
+
+

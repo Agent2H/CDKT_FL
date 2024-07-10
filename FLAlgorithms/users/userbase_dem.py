@@ -8,7 +8,7 @@ import numpy as np
 import copy
 from Setting import *
 from utils.clustering.DTree import Node
-
+from sklearn.metrics import f1_score
 
 class User(Node):
     """
@@ -48,6 +48,7 @@ class User(Node):
             self.publicloader = DataLoader(public_data, self.public_samples, shuffle=True)
         else:
             self.trainloader = DataLoader(train_data, self.batch_size,shuffle=True)
+            self.num_batches=len(self.trainloader)
             # self.trainloaderpublic = DataLoader(train_public_data, self.batch_size, shuffle=True)
             self.publicloader = DataLoader(public_data, self.batch_size, shuffle=True)
             # self.publicdatasetloader = DataLoader(public_data, self.batch_size, shuffle=False) #no shuffle
@@ -67,6 +68,7 @@ class User(Node):
 
         # # those parameters are for persionalized federated learing.
         self.local_model = copy.deepcopy(list(self.model.parameters()))
+        self.server_model = [torch.zeros_like(p.data) for p in self.model.parameters() if p.requires_grad]
         # #self.persionalized_model = copy.deepcopy(list(self.model.parameters()))
         # self.persionalized_model_bar = copy.deepcopy(list(self.model.parameters()))
     
@@ -83,7 +85,6 @@ class User(Node):
         self.gmodel = self.model
 
 
-    
     def set_meta_parameters(self, model):
         for old_param, new_param in zip(self.model.parameters(), model.parameters()):
             old_param.data = new_param.data.clone()
@@ -123,7 +124,7 @@ class User(Node):
             self.client_model.eval()
 
 
-
+        F1_score=[]
         test_acc = 0
         for x, y in self.testloaderfull:
             x, y = x.to(self.device), y.to(self.device)
@@ -133,24 +134,35 @@ class User(Node):
             else:
                 output,_ = self.client_model(x)
             test_acc += (torch.sum(torch.argmax(output, dim=1) == y)).item()
+            top_p, top_class = output.topk(1, dim=1)
+            np_gt = y.flatten()
+            np_pred = top_class.squeeze().cpu().detach().numpy()
+            weighted_f1 = f1_score(np_gt.cpu().detach().numpy(), np_pred, average="weighted")
+            F1_score.append(weighted_f1)
             #@loss += self.loss(output, y)
             #print(self.id + ", Test Accuracy:", test_acc / y.shape[0] )
             #print(self.id + ", Test Loss:", loss)
-        return test_acc, y.shape[0], test_acc / y.shape[0]
+        return test_acc, y.shape[0], test_acc / y.shape[0],np.mean(F1_score)
 
     def test_gen(self, p_model):
         # self.model.eval()
         p_model.eval()
         test_acc = 0
         # self.update_parameters(p_model)
-
+        F1_score = []
         for x, y in self.testloaderfull:
             x, y = x.to(self.device), y.to(self.device)
             # output = p_model(x)
             output,_ = p_model(x)
+
             test_acc += (torch.sum(torch.argmax(output, dim=1) == y)).item()
+            top_p, top_class = output.topk(1, dim=1)
+            np_gt = y.flatten()
+            np_pred = top_class.squeeze().cpu().detach().numpy()
+            weighted_f1 = f1_score(np_gt.cpu().detach().numpy(), np_pred, average="weighted")
+            F1_score.append(weighted_f1)
         # self.update_parameters(self.local_model)
-        return test_acc, y.shape[0]
+        return test_acc, y.shape[0],np.mean(F1_score)
         #### The both implementation shows similar performance C-GEN for FedAvg and G-GEN in DemLearn but not C-GEN ??? ####
         # self.model.eval()
         # test_acc = 0
@@ -174,7 +186,7 @@ class User(Node):
             x, y = x.to(self.device), y.to(self.device)
             # output = self.model(x)
             if Same_model:
-                output, _ = self.model(x)
+                output, _= self.model(x)
             else:
                 output, _ = self.client_model(x)
             train_acc += (torch.sum(torch.argmax(output, dim=1) == y)).item()

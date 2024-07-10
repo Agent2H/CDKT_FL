@@ -26,7 +26,7 @@ np.random.seed(1)
 NUM_USERS = 50  # should be muitiple of 10
 NUM_LABELS = 30
 # Setup directory for train/test data
-train_path = './data/train/cifar_train.json'
+train_path = '../../cifar_train.json'
 test_path = './data/test/cifar_test.json'
 public_path= './data/public/public_data.json'
 dir_path = os.path.dirname(train_path)

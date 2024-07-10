@@ -1,3 +1,5 @@
+import copy
+
 import torch
 import os
 import torch.multiprocessing as mp
@@ -32,7 +34,12 @@ class CDKT(Dem_Server):
         self.criterion_JSD = JSD()
         self.avg_local_dict_prev_1 = dict()
         self.gamma = gamma
-
+        # if args.algorithm =="CDKT_Rep":
+        #     RUNNING_ALG == "CDKT_Rep"
+        # elif args.algorithm == "CDKT_RepFull":
+        #     RUNNING_ALG== "CDKT_RepFull"
+        # elif args.algorithm == "CDKT_Full":
+        #     RUNNING_ALG == "CDKT_Full"
         # total_users = len(dataset[0][0])
         self.sub_data = cutoff
         if(self.sub_data):
@@ -224,11 +231,11 @@ class CDKT(Dem_Server):
         # avg_local_dict = sum_local_dict/self.total_users
         # print(c)
         # print("finish local dict")
-
+        global_total_round_loss=[]
         #Global distillation
         # TODO: implement several global iterations to construct generalized knowledge :done
         for epoch in range(1, epochs+1):
-
+            global_total_loss=[]
             self.model.train()
 
             # for batch_idx, (X_public, y_public) in enumerate(self.publicloader):
@@ -241,6 +248,7 @@ class CDKT(Dem_Server):
                 batch_rep_logits = torch.from_numpy(avg_rep_local_dict[batch_idx]).float().to(self.device)
                 X_public, y_public = X_public.to(self.device), y_public.to(self.device)
 
+                global_loss=[]
 
                 # self.model.fc1.register_forward_hook(get_activation('fc1'))
                 # output_public=self.model(X_public)
@@ -285,9 +293,13 @@ class CDKT(Dem_Server):
                 self.optimizer.zero_grad()
                 loss.backward()
 
+
                 self.optimizer.step()
 
-
+                global_loss.append(loss.item())
+                global_total_loss.extend(global_loss)
+            global_total_round_loss.append(np.mean(global_total_loss))
+        return(np.mean(global_total_round_loss))
     def generalized_knowledge_ensemble(self, epochs):
         LOSS = 0
         self.model.train()
@@ -388,13 +400,15 @@ class CDKT(Dem_Server):
 
             # ============= Test each client =============
             tqdm.write('============= Test Client Models - Specialization ============= ')
-            stest_acu, strain_acc = self.evaluating_clients(glob_iter, mode="spe")
+            stest_acu, strain_acc ,sf1_acc= self.evaluating_clients(glob_iter, mode="spe")
             self.cs_avg_data_test.append(stest_acu)
             self.cs_avg_data_train.append(strain_acc)
+            self.rs_c_spec_f1.append(sf1_acc)
             tqdm.write('============= Test Client Models - Generalization ============= ')
-            gtest_acu, gtrain_acc = self.evaluating_clients(glob_iter, mode="gen")
+            gtest_acu, gtrain_acc ,gf1_acc= self.evaluating_clients(glob_iter, mode="gen")
             self.cg_avg_data_test.append(gtest_acu)
             self.cg_avg_data_train.append(gtrain_acc)
+            self.rs_c_gen_f1.append(gf1_acc)
             tqdm.write('============= Test Global Models  ============= ')
             #loss_ = 0
             # self.send_parameters()   #Broadcast the global model to all clients
@@ -408,18 +422,19 @@ class CDKT(Dem_Server):
             # if alpha < 0.3 and glob_iter>=0:
             #     alpha += (0.3 - 0.15) / (NUM_GLOBAL_ITERS - 0)
             # print("alpha 1= ", alpha)
-            
+            loss_value=[]
             #NOTE: this is required for the ``fork`` method to work
             for user in self.selected_users:
                 if(glob_iter==0):
                     user.train(self.local_epochs)
                 else:
                     # user.train(self.local_epochs)
-
-                    user.train_distill(self.local_epochs,self.model,glob_iter,alpha)
-
+                    pre_w = copy.deepcopy(user.model)
+                    total_loss=user.train_distill(self.local_epochs,self.model,pre_w,glob_iter,alpha)
+                    loss_value.append(total_loss)
                     # user.train_prox(self.local_epochs)
-
+            tqdm.write('At round {} local loss is: {}'.format(glob_iter, np.mean(loss_value)))
+            self.rs_local_loss.append(np.mean(loss_value))
             #
 
             # self.aggregate_parameters()
@@ -431,8 +446,9 @@ class CDKT(Dem_Server):
             if Ensemble == True:
                 self.generalized_knowledge_ensemble(global_generalized_epochs)
             else:
-                self.generalized_knowledge_construction(global_generalized_epochs,self.args.dataset,glob_iter)
-
+                global_total_loss_value=self.generalized_knowledge_construction(global_generalized_epochs,self.args.dataset,glob_iter)
+            tqdm.write('At round {} global loss is: {}'.format(glob_iter, global_total_loss_value))
+            self.rs_global_loss.append(global_total_loss_value)
         self.save_results1()
         self.save_model()
 
@@ -441,5 +457,6 @@ class CDKT(Dem_Server):
                    cs_avg_data_test=self.cs_avg_data_test, cs_avg_data_train=self.cs_avg_data_train,
                    cg_avg_data_test=self.cg_avg_data_test, cg_avg_data_train=self.cg_avg_data_train,
                    cs_data_test=self.cs_data_test, cs_data_train=self.cs_data_train, cg_data_test=self.cg_data_test,
-                   cg_data_train=self.cg_data_train, N_clients=[N_clients])
-        plot_from_file()
+                   cg_data_train=self.cg_data_train,local_loss=self.rs_local_loss,global_loss=self.rs_global_loss, global_f1=self.rs_global_f1,
+                   spec_f1=self.rs_c_spec_f1,gen_f1=self.rs_c_gen_f1,N_clients=[N_clients])
+        # plot_from_file()

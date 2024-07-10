@@ -9,7 +9,7 @@ from tqdm import trange
 import numpy as np
 import random
 from sklearn.model_selection import train_test_split
-
+from Setting import *
 IMAGE_SIZE = 28
 IMAGE_PIXELS = IMAGE_SIZE * IMAGE_SIZE
 NUM_CHANNELS = 1
@@ -260,9 +260,14 @@ def read_data(dataset):
     #     clients, groups, train_data, test_data = read_cifa_data()
     #     return clients, groups, train_data, test_data
 
-    train_data_dir = os.path.join('data',dataset,'data', 'train')
-    test_data_dir = os.path.join('data',dataset,'data', 'test')
-    public_data_dir = os.path.join('data', dataset, 'data', 'public')
+    if N_clients==100:
+        train_data_dir = os.path.join('data', dataset, 'data', 'train100')
+        test_data_dir = os.path.join('data', dataset, 'data', 'test100')
+        public_data_dir = os.path.join('data', dataset, 'data', 'public100')
+    else:
+        train_data_dir = os.path.join('data',dataset,'data', 'train')
+        test_data_dir = os.path.join('data',dataset,'data', 'test')
+        public_data_dir = os.path.join('data', dataset, 'data', 'public')
     clients = []
     groups = []
     train_data = {}
@@ -299,7 +304,6 @@ def read_data(dataset):
     clients = list(sorted(train_data.keys()))
 
     return clients, groups, train_data, test_data, public_data
-
 
 def read_public_data(data,dataset):
     public_data = data[4]

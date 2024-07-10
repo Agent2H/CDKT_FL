@@ -58,20 +58,22 @@ class FedAvg(Dem_Server):
 
             self.selected_users = self.select_users(glob_iter,self.num_users)
             # self.selected_users = self.users
-
+            # print("selected users are",self.selected_users)
             if(self.experiment):
                 self.experiment.set_epoch( glob_iter + 1)
             print("-------------Round number: ",glob_iter, " -------------")
 
             # ============= Test each client =============
             tqdm.write('============= Test Client Models - Specialization ============= ')
-            stest_acu, strain_acc = self.evaluating_clients(glob_iter, mode="spe")
+            stest_acu, strain_acc ,sf1_acc= self.evaluating_clients(glob_iter, mode="spe")
             self.cs_avg_data_test.append(stest_acu)
             self.cs_avg_data_train.append(strain_acc)
+            self.rs_c_spec_f1.append(sf1_acc)
             tqdm.write('============= Test Client Models - Generalization ============= ')
-            gtest_acu, gtrain_acc = self.evaluating_clients(glob_iter, mode="gen")
+            gtest_acu, gtrain_acc,gf1_acc = self.evaluating_clients(glob_iter, mode="gen")
             self.cg_avg_data_test.append(gtest_acu)
             self.cg_avg_data_train.append(gtrain_acc)
+            self.rs_c_gen_f1.append(gf1_acc)
             tqdm.write('============= Test Global Models  ============= ')
             #loss_ = 0
             self.send_parameters()   #Broadcast the global model to all clients
@@ -93,10 +95,12 @@ class FedAvg(Dem_Server):
                     user.train(self.local_epochs)
                     # user.train_distill(self.local_epochs)
                     # user.train_prox(self.local_epochs)
-
+                    # print(user.model.state_dict())
             self.aggregate_parameters()
+            # print(self.model.state_dict())
             #if Using_public_data: TODO:
-
+            # for server_param in self.model.parameters():
+            #     print(server_param.data)
 
         self.save_results1()
         self.save_model()
@@ -106,6 +110,7 @@ class FedAvg(Dem_Server):
                    cs_avg_data_test=self.cs_avg_data_test, cs_avg_data_train=self.cs_avg_data_train,
                    cg_avg_data_test=self.cg_avg_data_test, cg_avg_data_train=self.cg_avg_data_train,
                    cs_data_test=self.cs_data_test, cs_data_train=self.cs_data_train, cg_data_test=self.cg_data_test,
-                   cg_data_train=self.cg_data_train, N_clients=[N_clients])
+                   cg_data_train=self.cg_data_train,global_f1=self.rs_global_f1,
+                   spec_f1=self.rs_c_spec_f1,gen_f1=self.rs_c_gen_f1, N_clients=[N_clients])
         print('result file path',rs_file_path)
-        plot_from_file()
+        # plot_from_file()

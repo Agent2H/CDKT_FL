@@ -76,9 +76,12 @@ class UserCDKT(User):
 
 
 
-    def train_distill(self, epochs, global_model,glob_iter,alpha1=alpha):
+    def train_distill(self, epochs, global_model,pre_w,glob_iter,alpha1=alpha):
         LOSS = 0
         gen_model = copy.deepcopy(global_model)
+        gen_model.eval()
+        pre_model = copy.deepcopy(pre_w)
+        pre_model.eval()
         if Same_model:
             self.model.train()
         else:
@@ -98,9 +101,10 @@ class UserCDKT(User):
         #     alpha += (0.3 - 0.15) / (NUM_GLOBAL_ITERS - 20)
         #     alpha = old_alpha
         # print("alpha 2 = ", alpha1)
-
+        total_loss_round=[]
         for epoch in range(1, epochs + 1):  # local updatec
 
+            total_loss=[]
 
             if Same_model:
                 self.model.train()
@@ -114,13 +118,14 @@ class UserCDKT(User):
             public_data = self.publicdatasetloader[batch_num:]
             # print(type(private_data))
             # print(type(public_data))
+            # public_classes_stats = np.zeros(100)
             for [local_batch_idx,(X, y)], [batch_idx, (X_public,y_public)] in zip(private_data, public_data):
                 # print("local batch id: ", local_batch_idx, " public batch ", batch_idx)
                 X, y = X.to(self.device), y.to(self.device)  # self.get_next_train_batch()
                 X_public, y_public = X_public.to(self.device), y_public.to(self.device)
                 # if batch_idx==0:
                 #     print('local batch',X_public[0])
-
+                tot_loss=[]
                 #### Get activation and output from local model
                 # self.model.fc1.register_forward_hook(get_activation('fc1'))
                 # output_public = self.model(X_public)
@@ -131,7 +136,11 @@ class UserCDKT(User):
                 # gen_output_public = gen_model(X_public)
                 # rep_gen_output_public = activation['fc1']
                 # output = self.model(X)
-
+                # for l in y:
+                #     for k in range(100):
+                #         if (l == k):
+                #             public_classes_stats[k] += 1
+                # print(public_classes_stats)
                 if Same_model:
                     output_public, rep_output_public = self.model(X_public)
                     output, _ = self.model(X)
@@ -178,11 +187,13 @@ class UserCDKT(User):
 
                 self.optimizer.zero_grad()
                 loss.backward()
-
+                tot_loss.append(loss.item())
+                total_loss.extend(tot_loss)
                 self.optimizer.step()
                 batch_num +=1
             # print("num of public batch", c)
-
+            total_loss_round.append(np.mean(total_loss))
+        return np.mean(total_loss_round)
         # logits_dict = dict()
         # for batch_idx, (X_public,y_public) in enumerate(self.publicdatasetloader):
         #     X_public, y_public = X_public.to(self.device), y_public.to(self.device)

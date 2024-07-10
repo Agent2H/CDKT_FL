@@ -43,6 +43,7 @@ class User:
 
         # those parameters are for persionalized federated learing.
         self.local_model = copy.deepcopy(list(self.model.parameters()))
+
         #self.persionalized_model = copy.deepcopy(list(self.model.parameters()))
         self.persionalized_model_bar = copy.deepcopy(list(self.model.parameters()))
 
@@ -115,7 +116,7 @@ class User:
         loss = 0
         for x, y in self.trainloaderfull:
             x, y = x.to(self.device), y.to(self.device)
-            output = self.model(x)
+            output,_ = self.model(x)
             train_acc += (torch.sum(torch.argmax(output, dim=1) == y)).item()
             loss += self.loss(output, y)
             #print(self.id + ", Train Accuracy:", train_acc)

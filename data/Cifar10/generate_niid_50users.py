@@ -80,6 +80,7 @@ print("IDX1:", idx)  # counting samples for each labels
 user = 0
 props = np.random.lognormal(
     0, 2., (10, NUM_USERS, NUM_LABELS))  # last 5 is 5 labels
+# props = np.random.dirichlet(np.repeat(0.5),  (10, NUM_USERS, NUM_LABELS))  # last 5 is 5 labels
 props = np.array([[[len(v) - NUM_USERS]] for v in cifa_data]) * \
         props / np.sum(props, (1, 2), keepdims=True)
 # print("here:",props/np.sum(props,(1,2), keepdims=True))
@@ -132,6 +133,8 @@ for i in range(NUM_USERS):
     test_data['users'].append(uname)
     test_data["user_data"][uname] = {'x': X_test, 'y': y_test}
     test_data['num_samples'].append(len(y_test))
+
+
 
 print("Num_samples:", train_data['num_samples'])
 print("Total_samples:", sum(train_data['num_samples'] + test_data['num_samples']))

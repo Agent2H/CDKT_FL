@@ -1,0 +1,52 @@
+data_dir = 'data/stl10/client_data_3_clusters/'
+
+dummy_dir = os.path.join(data_dir, 'client_0', 'train')
+class_labels = os.listdir(dummy_dir)
+class_labels.sort()
+print(class_labels)
+
+
+num_clients = 60
+
+x, y, n = [], [], []
+for idx in range(num_clients):
+    client_dir = os.path.join(data_dir, 'client_{}'.format(idx), 'train')
+    for l_idx, label in enumerate(class_labels):
+        class_dir = os.path.join(client_dir, label)
+        y.append(label)
+        x.append(idx)
+        n.append((1*len(os.listdir(class_dir)))*4)
+    
+from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
+
+plt.figure(figsize=(18,4))
+
+plt.scatter(x, y, s=n, alpha=0.5)
+plt.xticks(np.arange(min(x), max(x)+1, 1.0), fontsize=12, rotation=45)
+plt.yticks(fontsize=12)
+plt.xlabel('client $u$')
+plt.ylabel('classes')
+plt.grid(linestyle=':')
+plt.savefig('client_data_amount.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+fig, ax = plt.subplots(figsize=(18,4))
+
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+ax.xaxis.set_major_locator(MultipleLocator(5))
+ax.yaxis.set_major_locator(MultipleLocator(1))
+
+ax.xaxis.set_minor_locator(MultipleLocator(1))
+
+ax.grid(which='major', linestyle=':', alpha=0.7)
+ax.grid(which='minor', linestyle=':', alpha=0.7)
+
+ax.set_xlabel('Client $u$', fontsize=18)
+ax.set_ylabel('Class', fontsize=18)
+
+ax.scatter(x, y, s=n, alpha=0.7)
+
+with plt.rc_context({'image.composite_image': False}):
+    plt.savefig('client_data_amount.pdf', dpi=300, bbox_inches='tight')

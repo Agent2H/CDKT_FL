@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from utils.model_utils import Metrics
 import copy
-# from Setting import *
+from Setting import *
 
 class Server:
     def __init__(self, experiment, device, dataset,algorithm, model,  client_model, batch_size, learning_rate ,beta, L_k,
@@ -22,6 +22,7 @@ class Server:
         self.total_train_samples = 0
         self.model = copy.deepcopy(model)
         self.client_model = copy.deepcopy(client_model)
+        # self.global_model=copy.deepcopy(model)
         self.users = []
         self.selected_users = []
         self.num_users = num_users
@@ -30,9 +31,22 @@ class Server:
         self.algorithm = algorithm
         self.rs_train_acc, self.rs_train_loss, self.rs_glob_acc,self.rs_train_acc_per, self.rs_train_loss_per, self.rs_glob_acc_per , self.rs_avg_acc, self.rs_avg_acc_per = [], [], [], [], [], [], [], []
         self.rs_c_gen_acc=[]
+        self.rs_local_loss=[]
+        self.rs_global_loss=[]
+        self.rs_global_f1=[]
+        self.rs_c_spec_f1=[]
+        self.rs_c_gen_f1=[]
         self.times = times
         self.experiment = experiment
         self.sub_data = 0
+        self.join_ratio = 1.0
+        self.uploaded_models = []
+        self.uploaded_ids = []
+
+        self.num_join_clients = int(N_clients*Frac_users * self.join_ratio)
+
+        self.current_num_join_clients = self.num_join_clients
+        self.client_drop_rate = 0
 
         # Initialize the server's grads to zeros
         #for param in self.model.parameters():
@@ -73,7 +87,10 @@ class Server:
     def send_parameters(self):
         assert (self.users is not None and len(self.users) > 0)
         for user in self.users:
-            user.set_parameters(self.model)
+            # if RUNNING_ALG=="FedDyn":
+            #     user.set_parameters_dyn(self.model)
+            # else:
+                user.set_parameters(self.model)
     
     def send_meta_parameters(self):
         assert (self.users is not None and len(self.users) > 0)
@@ -250,15 +267,17 @@ class Server:
         num_samples = []
         tot_correct = []
         losses = []
+        f1_result=[]
         mean_accurancy = []
         for c in self.users:
-            ct, ns, ma = c.test()
+            ct, ns, ma,f1 = c.test()
             tot_correct.append(ct*1.0)
             num_samples.append(ns)
             mean_accurancy.append(ma)
+            f1_result.append(f1)
         ids = [c.id for c in self.users]
 
-        return ids, num_samples, tot_correct, mean_accurancy
+        return ids, num_samples, tot_correct, mean_accurancy, np.mean(f1_result)
 
     def train_error_and_loss(self):
         num_samples = []
@@ -323,15 +342,24 @@ class Server:
         return c_gen_acc
 
     def evaluating_global(self,i):
+        if RUNNING_ALG == "PerAvg":
+            for c in self.users:
+                c.train_one_step()
         stats = self.test()
+        if RUNNING_ALG == "PerAvg":
+            for c in self.users:
+                c.update_parameters(c.local_model)
         # stats_train = self.train_error_and_loss()
         # self.metrics.accuracies.append(stats)
         # self.metrics.train_accuracies.append(stats_train)
         gl_test = np.sum(stats[2])*1.0/np.sum(stats[1])
+        f1_test = stats[4]
         # gl_train = np.sum(stats_train[3])*1.0/np.sum(stats_train[2])
         self.rs_glob_acc.append(gl_test)
+        self.rs_global_f1.append(np.mean(f1_test))
         # self.global_data_train.append(gl_train)
         tqdm.write('At round {} global testing accuracy: {}'.format(i, gl_test))
+        tqdm.write('At round {} global F1 accuracy: {}'.format(i, f1_test))
         # tqdm.write('At round {} global training accuracy: {}'.format(i, gl_train))
         # tqdm.write('At round {} global training loss: {}'.format(i, np.dot(stats_train[4], stats_train[2])*1.0/np.sum(stats_train[2])))
 

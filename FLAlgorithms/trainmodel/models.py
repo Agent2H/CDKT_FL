@@ -23,11 +23,12 @@ class Net(nn.Module):
         x = nn.MaxPool2d(2, 1)(x)
         x = self.dropout2(x)
         x = torch.flatten(x, 1)
-        x = self.fc1(x)
-        x = nn.ReLU()(x)
-        x = self.fc2(x)
-        output = F.log_softmax(x, dim=1)
-        return output
+        # x = self.fc1(x)
+        # activation1 = nn.ReLU()(x)
+        activation1 = F.relu(self.fc1(x))
+        x = self.fc2(activation1)
+        # output = F.log_softmax(x, dim=1)
+        return x, activation1
 
 
 class Net_DemAI(nn.Module):
@@ -147,6 +148,7 @@ class DNN2(nn.Module):
         x = self.fc3(x)
         x = F.log_softmax(x, dim=1)
         return x
+
 
 
 #################################

@@ -25,11 +25,11 @@ def args_parser():
     parser.add_argument("--model", type=str, default="cnn", choices=["dnn", "mclr", "cnn"])
     parser.add_argument("--batch_size", type=int, default=20)
     parser.add_argument("--learning_rate", type=float, default=local_learning_rate, help="Local learning rate")
-    parser.add_argument("--L_k", type=float, default=1, help="Regularization term")
+    parser.add_argument("--L_k", type=float, default=0.01, help="Regularization term")
     parser.add_argument("--num_global_iters", type=int, default=NUM_GLOBAL_ITERS)
     parser.add_argument("--local_epochs", type=int, default = LOCAL_EPOCH)
     parser.add_argument("--optimizer", type=str, default="SGD")
-    parser.add_argument("--algorithm", type=str, default=Input_Alg,choices=["pFedMe", "pFedMe_p", "PerAvg", "FedAvg", "FedU", "Mocha", "Local" , "Global","DemLearn","DemLearnRep","CDKT"])
+    parser.add_argument("--algorithm", type=str, default=Input_Alg,choices=["pFedMe", "pFedMe_p", "PerAvg", "FedAvg","FedProx", "FedU", "Mocha", "Local" , "Global","DemLearn","DemLearnRep","CDKT_Rep","CDKT_RepFull","CDKT_Full","fedkc","MOON","Scaffold","FedDyn"])
     parser.add_argument("--subusers", type = float, default = Frac_users, help="Fraction of Num Users per round")  #Fraction number of users
     parser.add_argument("--K", type=int, default=0, help="Computation steps")
     parser.add_argument("--personal_learning_rate", type=float, default=0.02, help="Persionalized learning rate to caculate theta aproximately using K steps")
